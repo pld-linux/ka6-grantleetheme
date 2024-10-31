@@ -1,11 +1,13 @@
 #
 # Conditional build:
-%bcond_with	tests		# build with tests
+%bcond_with	tests		# test suite
+
 %define		kdeappsver	24.08.2
 %define		kframever	5.94.0
 %define		qtver		5.15.2
 %define		kaname		grantleetheme
-Summary:	Grantlee Theme
+Summary:	Grantlee Theme library
+Summary(pl.UTF-8):	Biblioteka motywów Grantlee
 Name:		ka6-%{kaname}
 Version:	24.08.2
 Release:	2
@@ -13,7 +15,7 @@ License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
 # Source0-md5:	cda5df2fc8c27ab6164cb15c2cf169db
-URL:		http://www.kde.org/
+URL:		https://kde.org/
 BuildRequires:	Qt6Core-devel >= %{qtver}
 BuildRequires:	cmake >= 3.20
 BuildRequires:	grantlee-qt6-devel >= 5.3
@@ -27,7 +29,7 @@ BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	shared-mime-info
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-Obsoletes:	ka5-%{kaname} < %{version}
+Obsoletes:	ka5-grantleetheme < 24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,7 +45,7 @@ Summary:	Header files for %{kaname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kaname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	ka5-%{kaname}-devel < %{version}
+Obsoletes:	ka5-grantleetheme-devel < 24
 
 %description devel
 Header files for %{kaname} development.
@@ -60,15 +62,16 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DKDE_INSTALL_DOCBUNDLEDIR=%{_kdedocdir} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+
 %ninja_build -C build
 
 %if %{with tests}
 ctest --test-dir build
 %endif
 
-
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %ninja_install -C build
 
 %find_lang %{kaname} --all-name --with-kde
@@ -81,7 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{kaname}.lang
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libKPim6GrantleeTheme.so.*.*
+%attr(755,root,root) %{_libdir}/libKPim6GrantleeTheme.so.*.*.*
 %ghost %{_libdir}/libKPim6GrantleeTheme.so.6
 %attr(755,root,root) %{_libdir}/qt6/plugins/kf6/ktexttemplate/kde_grantlee_plugin.so
 %{_datadir}/qlogging-categories6/grantleetheme.categories
@@ -89,7 +92,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%{_libdir}/libKPim6GrantleeTheme.so
 %{_includedir}/KPim6/GrantleeTheme
 %{_libdir}/cmake/KPim6GrantleeTheme
-%{_libdir}/libKPim6GrantleeTheme.so
-
