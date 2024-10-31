@@ -2,33 +2,52 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeappsver	24.08.2
-%define		kframever	5.94.0
-%define		qtver		5.15.2
+%define		kdeappsver	%{version}
+%define		kf_ver		6.3.0
+%define		qt_ver		6.6.0
 %define		kaname		grantleetheme
 Summary:	Grantlee Theme library
 Summary(pl.UTF-8):	Biblioteka motywów Grantlee
 Name:		ka6-%{kaname}
 Version:	24.08.2
-Release:	2
+Release:	3
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
 # Source0-md5:	cda5df2fc8c27ab6164cb15c2cf169db
 URL:		https://kde.org/
-BuildRequires:	Qt6Core-devel >= %{qtver}
+BuildRequires:	Qt6Core-devel >= %{qt_ver}
+BuildRequires:	Qt6Gui-devel >= %{qt_ver}
+BuildRequires:	Qt6Network-devel >= %{qt_ver}
+%if %{with tests}
+BuildRequires:	Qt6Test-devel >= %{qt_ver}
+%endif
+BuildRequires:	Qt6Widgets-devel >= %{qt_ver}
 BuildRequires:	cmake >= 3.20
-BuildRequires:	grantlee-qt6-devel >= 5.3
-BuildRequires:	kf6-extra-cmake-modules >= %{kframever}
-BuildRequires:	kf6-kguiaddons-devel >= %{kframever}
-BuildRequires:	kf6-knewstuff-devel >= %{kframever}
+BuildRequires:	kf6-extra-cmake-modules >= %{kf_ver}
+BuildRequires:	kf6-kcolorscheme-devel >= %{kf_ver}
+BuildRequires:	kf6-kconfig-devel >= %{kf_ver}
+BuildRequires:	kf6-kguiaddons-devel >= %{kf_ver}
+BuildRequires:	kf6-ki18n-devel >= %{kf_ver}
+BuildRequires:	kf6-kiconthemes-devel >= %{kf_ver}
+BuildRequires:	kf6-knewstuff-devel >= %{kf_ver}
 BuildRequires:	kf6-ktexttemplate-devel
+BuildRequires:	kf6-kxmlgui-devel >= %{kf_ver}
 BuildRequires:	ninja
-BuildRequires:	qt6-build >= %{qtver}
+BuildRequires:	qt6-build >= %{qt_ver}
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	shared-mime-info
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Requires:	Qt6Core >= %{qt_ver}
+Requires:	Qt6Gui >= %{qt_ver}
+Requires:	kf6-kcolorscheme >= %{kf_ver}
+Requires:	kf6-kconfig >= %{kf_ver}
+Requires:	kf6-kguiaddons >= %{kf_ver}
+Requires:	kf6-ki18n >= %{kf_ver}
+Requires:	kf6-kiconthemes >= %{kf_ver}
+Requires:	kf6-knewstuff >= %{kf_ver}
+Requires:	kf6-kxmlgui >= %{kf_ver}
 Obsoletes:	ka5-grantleetheme < 24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -45,6 +64,7 @@ Summary:	Header files for %{kaname} development
 Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kaname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	kf6-ktexttemplate-devel
 Obsoletes:	ka5-grantleetheme-devel < 24
 
 %description devel
@@ -74,7 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %ninja_install -C build
 
-%find_lang %{kaname} --all-name --with-kde
+%find_lang libgrantleetheme6
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -82,8 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files -f %{kaname}.lang
+%files -f libgrantleetheme6.lang
 %defattr(644,root,root,755)
+%doc README.md
 %attr(755,root,root) %{_libdir}/libKPim6GrantleeTheme.so.*.*.*
 %ghost %{_libdir}/libKPim6GrantleeTheme.so.6
 %attr(755,root,root) %{_libdir}/qt6/plugins/kf6/ktexttemplate/kde_grantlee_plugin.so
