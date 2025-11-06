@@ -2,19 +2,19 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeappsver	25.08.2
+%define		kdeappsver	25.08.3
 %define		kf_ver		6.3.0
 %define		qt_ver		6.6.0
 %define		kaname		grantleetheme
 Summary:	Grantlee Theme library
 Summary(pl.UTF-8):	Biblioteka motywów Grantlee
 Name:		ka6-%{kaname}
-Version:	25.08.2
-Release:	2
+Version:	25.08.3
+Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	f3114703af49feedd079a3676c8853ad
+# Source0-md5:	28327cbe660efccecf724424cd1ba8e6
 URL:		https://kde.org/
 BuildRequires:	Qt6Core-devel >= %{qt_ver}
 BuildRequires:	Qt6Gui-devel >= %{qt_ver}
@@ -106,9 +106,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -f libgrantleetheme6.lang
 %defattr(644,root,root,755)
 %doc README.md
-%attr(755,root,root) %{_libdir}/libKPim6GrantleeTheme.so.*.*.*
+%{_libdir}/libKPim6GrantleeTheme.so.*.*.*
 %ghost %{_libdir}/libKPim6GrantleeTheme.so.6
-%attr(755,root,root) %{_libdir}/qt6/plugins/kf6/ktexttemplate/kde_grantlee_plugin.so
+%{_libdir}/qt6/plugins/kf6/ktexttemplate/kde_grantlee_plugin.so
 %{_datadir}/qlogging-categories6/grantleetheme.categories
 %{_datadir}/qlogging-categories6/grantleetheme.renamecategories
 
