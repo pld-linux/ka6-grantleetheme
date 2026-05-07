@@ -2,19 +2,19 @@
 # Conditional build:
 %bcond_with	tests		# test suite
 
-%define		kdeappsver	26.04.0
+%define		kdeappsver	26.04.1
 %define		kf_ver		6.3.0
 %define		qt_ver		6.6.0
 %define		kaname		grantleetheme
 Summary:	Grantlee Theme library
 Summary(pl.UTF-8):	Biblioteka motywów Grantlee
 Name:		ka6-%{kaname}
-Version:	26.04.0
-Release:	2
+Version:	26.04.1
+Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	e381e0e3ca38350a4e3dfeff4c0823d5
+# Source0-md5:	20f210beb15aaf6424e6c5e28dd774a4
 URL:		https://kde.org/
 BuildRequires:	Qt6Core-devel >= %{qt_ver}
 BuildRequires:	Qt6Gui-devel >= %{qt_ver}
